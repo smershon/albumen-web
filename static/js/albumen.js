@@ -1,0 +1,34 @@
+$(document).ready(function(){
+
+    var select_uid = null;   
+ 
+    $("#commit_button").bind("click", function() {
+        $("#album_info").html($("#loading-gif").text());
+        $.post("/albumen", {
+            "artist": $("#artist_input").val(),
+            "album": $("#album_input").val() 
+            },
+            function(data) {
+                $("#album_info").html(_.template($("#album_template").html(), { album : data }));
+                _.each(data["images"], function(img_url, idx, lst) {
+                    console.log(img_url);
+                    var img = new Image();
+
+                    img.onload = function() {
+                        $("#album_table tbody").append(_.template($("#image_row").html(),
+                            {img_url: img_url, width: img.width, height: img.height}));
+                        $("#album_info tr").click(function() {
+                            select_uid = $(this).attr('id')
+                            $("#album_info tr").css('background-color', 'white');
+                            $(this).css('background-color', '#FFCF00');
+                        });
+                    };
+
+                    img.src = img_url.url;
+                });
+            }
+        );
+    });
+
+});
+
