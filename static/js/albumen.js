@@ -27,24 +27,24 @@ $(document).ready(function(){
 
                     img.src = img_url.url;
                 });
-
-                $("#save_button").click( function() {
-                    if(!select_uid) {
-                        return;
-                    }
-                    $.post("/albumen/save", {
-                        "artist" : $("#artist_input").val(),
-                        "album" : $("#album_input").val(),
-                        "image_url" : $("#" + select_uid + " td:first p:first").html()
-                        },
-                        function(data) {
-                            console.log(data);
-                            $("#save_button").attr("disabled", "disabled");
-                    });
-                });
-
             }
         );
+    });
+
+    $("#save_button").click( function() {
+        if(!select_uid) {
+            return;
+        }
+        console.log("SAVING");
+        $.post("/albumen/save", {
+            "artist" : $("#artist_input").val(),
+            "album" : $("#album_input").val(),
+            "image_url" : $("#" + select_uid + " td:first p:first").html()
+            },
+            function(data) {
+                console.log(data);
+                $("#save_button").attr("disabled", "disabled");
+        });
     });
 
 });
