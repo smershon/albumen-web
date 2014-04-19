@@ -21,6 +21,7 @@ $(document).ready(function(){
                             select_uid = $(this).attr('id')
                             $("#album_info tr").css('background-color', 'white');
                             $(this).css('background-color', '#FFCF00');
+                            $("#save_button").removeAttr("disabled");
                         });
                     };
 
@@ -38,6 +39,7 @@ $(document).ready(function(){
                         },
                         function(data) {
                             console.log(data);
+                            $("#save_button").attr("disabled", "disabled");
                     });
                 });
 
