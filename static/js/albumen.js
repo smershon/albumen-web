@@ -10,8 +10,8 @@ $(document).ready(function(){
             },
             function(data) {
                 $("#album_info").html(_.template($("#album_template").html(), { album : data }));
+
                 _.each(data["images"], function(img_url, idx, lst) {
-                    console.log(img_url);
                     var img = new Image();
 
                     img.onload = function() {
@@ -26,6 +26,21 @@ $(document).ready(function(){
 
                     img.src = img_url.url;
                 });
+
+                $("#save_button").click( function() {
+                    if(!select_uid) {
+                        return;
+                    }
+                    $.post("/albumen/save", {
+                        "artist" : $("#artist_input").val(),
+                        "album" : $("#album_input").val(),
+                        "image_url" : $("#" + select_uid + " td:first p:first").html()
+                        },
+                        function(data) {
+                            console.log(data);
+                    });
+                });
+
             }
         );
     });
