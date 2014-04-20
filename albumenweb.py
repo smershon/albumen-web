@@ -26,8 +26,17 @@ def albumen_post():
 
 @app.route('/albumen/save', methods=['POST'])
 def albumen_save():
-    log.info(request.form)
-    return jsonify({})
+    d = request.form
+    log.info(d)
+
+    for field in ('artist', 'album', 'image_url'):
+        if field not in d:
+            return jsonify({'status': 'failed'})
+
+    if albumen_backend.save(request.form['artist'], request.form['album'], request.form['image_url']):
+        return jsonify({'status': 'success'})
+
+    return jsonify({'status': 'failed'})
 
 
 if __name__ == '__main__':
