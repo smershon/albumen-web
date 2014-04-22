@@ -16,13 +16,14 @@ app = Flask(__name__)
 def albumen_get():
     return render_template('albumen.html')
 
-@app.route('/albumen', methods=['POST'])
+@app.route('/albumen/search', methods=['POST'])
 def albumen_post():
     log.info(request.form)
     artist = request.form.get('artist')
     album = request.form.get('album')
     album_info = albumen_backend.search(artist, album)
-    return jsonify(album_info)
+    log.info(album_info)
+    return jsonify({'data': album_info})
 
 @app.route('/albumen/save', methods=['POST'])
 def albumen_save():

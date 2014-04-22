@@ -1,31 +1,45 @@
 import os
+import logging
 from albumen import resolve
 from albumen import storage
 from albumen import download
 
-s = storage.Storage('static/albumen')
+log = logging.getLogger(__name__)
+
+data_path = 'static/albumen/data'
+s = storage.Storage(data_path)
 
 def unique_id(n):
     return 'uid-%05d' % n
 
 def search(artist, album):
-    mbids = resolve.search(artist, album)
-    image_urls = [x for x in download.mb.image_urls(mbids)]
-    return {
-        'artist_name': artist,
-        'album_name': album,
-        'images': [{'url': v, 'uid': unique_id(i)} for i,v in enumerate(image_urls)]
-    }
+    data = []
+    idx = 0
+    log.info('%s --- %s', artist, album)
+    results = resolve.search(artist, album)
+    log.info(results)
+    for artist_name, album_name, mbid in results:
+        for url in download.mb.image_urls(mbid):
+            data.append({
+                'artist_name': artist_name,
+                'album_name': album_name,
+                'image': {'url': url, 'uid': unique_id(idx)}
+            })
+        idx += 1
+    return data
 
 def save(artist, album, url):
+    log.info('%s %s %s', artist, album, url)
     img = download.mb.from_url(url)
-    artist = artist.replace(' ', '_')
-    album = album.replace(' ', '_')
-    fileroot = os.path.join(s.folder, artist)
+    artist_path = artist.replace(' ', '_')
+    album_path = album.replace(' ', '_')
+    fileroot = os.path.join(s.folder, artist_path)
     os.system('mkdir -p %s' % fileroot)
-    filepath = os.path.join(fileroot, '%s.png' % album)
+    filepath = os.path.join(fileroot, '%s.png' % album_path)
     if img:
+        log.info('SAVING image for %s %s - %s', artist, album, filepath)
         s.update_image(artist, album, download.mb.to_dir(img, filepath))
         return True
     else:
+        log.info('IMAGE not found at %s', url)
         return False

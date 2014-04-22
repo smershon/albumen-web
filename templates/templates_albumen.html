@@ -1,22 +1,23 @@
 <script id="album_template" type="text/template">
-  <%- album["artist_name"] %><br/>
-  <%- album["album_name"] %><br/>
+  <p>Found <%- results %> results:</p>
   <table id="album_table"><tbody></tbody></table>
 </script>
   
 <script id="image_row" type="text/template">
-  <tr id="<%- img_url.uid %>">
-    <td style="text-align:right">
-      <p><%- img_url.url %></p> 
+  <tr id="<%- album.image.uid %>">
+    <td>
+      <p id="artist_name"><%- album.artist_name %></p>
+      <p id="album_name"><%- album.album_name %></p>
+      <p id="img_url"><%- album.image.url %></p> 
       <p style="font-weight:bold"><%- width %>x<%- height %></p>
     </td><td>
-      <img src="<%- img_url.url %>" width="150" height="150">
+      <img src="<%- album.image.url %>" width="150" height="150">
     </td>
   </tr>
 </script>
 
 <script id="loading-gif" type="text/template">
   <div style="width:120px; margin: 0 auto">
-    <img src="/static/gif/loading.gif" width="100" height="100"></img>
+    <img src="/static/albumen/loading.gif" width="100" height="100"></img>
   </div>
 </script>

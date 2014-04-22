@@ -4,19 +4,21 @@ $(document).ready(function(){
  
     $("#commit_button").bind("click", function() {
         $("#album_info").html($("#loading-gif").text());
-        $.post("/albumen", {
+        $.post("/albumen/search", {
             "artist": $("#artist_input").val(),
             "album": $("#album_input").val() 
             },
-            function(data) {
-                $("#album_info").html(_.template($("#album_template").html(), { album : data }));
+            function(response) {
+                data = response.data
+                console.log(data);
+                $("#album_info").html(_.template($("#album_template").html(), { results : data.length }));
 
-                _.each(data["images"], function(img_url, idx, lst) {
+                _.each(data, function(album, idx, lst) {
                     var img = new Image();
 
                     img.onload = function() {
                         $("#album_table tbody").append(_.template($("#image_row").html(),
-                            {img_url: img_url, width: img.width, height: img.height}));
+                            {album: album, width: img.width, height: img.height}));
                         $("#album_info tr").click(function() {
                             select_uid = $(this).attr('id')
                             $("#album_info tr").css('background-color', 'white');
@@ -25,7 +27,7 @@ $(document).ready(function(){
                         });
                     };
 
-                    img.src = img_url.url;
+                    img.src = album.image.url;
                 });
             }
         );
@@ -37,9 +39,9 @@ $(document).ready(function(){
         }
         console.log("SAVING");
         $.post("/albumen/save", {
-            "artist" : $("#artist_input").val(),
-            "album" : $("#album_input").val(),
-            "image_url" : $("#" + select_uid + " td:first p:first").html()
+            "artist" : $("#" + select_uid + " #artist_name").html(),
+            "album" : $("#" + select_uid + " #album_name").html(),
+            "image_url" : $("#" + select_uid + " #img_url").html()
             },
             function(data) {
                 console.log(data);
