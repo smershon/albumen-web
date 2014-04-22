@@ -23,7 +23,7 @@ def albumen_post():
     album = request.form.get('album')
     album_info = albumen_backend.search(artist, album)
     log.info(album_info)
-    return jsonify({'data': album_info})
+    return jsonify(album_info)
 
 @app.route('/albumen/save', methods=['POST'])
 def albumen_save():

@@ -9,11 +9,13 @@ $(document).ready(function(){
             "album": $("#album_input").val() 
             },
             function(response) {
-                data = response.data
-                console.log(data);
-                $("#album_info").html(_.template($("#album_template").html(), { results : data.length }));
+                $("#album_info").html(_.template($("#album_template").html(), { results : response.images.length }));
 
-                _.each(data, function(album, idx, lst) {
+                _.each(response.albums, function(album, idx, lst) {
+                    $("#album_table tbody").append(_.template($("#album_row").html(), {album: album}))
+                });
+
+                _.each(response.images, function(album, idx, lst) {
                     var img = new Image();
 
                     img.onload = function() {

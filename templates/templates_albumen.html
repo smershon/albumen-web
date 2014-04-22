@@ -2,7 +2,18 @@
   <p>Found <%- results %> results:</p>
   <table id="album_table"><tbody></tbody></table>
 </script>
-  
+ 
+<script id="album_row" type="text/template">
+  <tr id="<%- album.image.uid %>">
+    <td>
+      <p id="artist_name"><%- album.artist_name %></p>
+      <p id="album_name"><%- album.album_name %></p>
+    </td><td>
+      <img src="<%- album.image.url %>" width="150" height="150"></img>
+    </td>
+  </tr>  
+</script>
+ 
 <script id="image_row" type="text/template">
   <tr id="<%- album.image.uid %>">
     <td>
