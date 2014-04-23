@@ -40,6 +40,11 @@ def search(artist, album):
 
 def save(artist, album, url):
     log.info('%s %s %s', artist, album, url)
+    
+    if not url or url == 'null':
+        s.update_album(artist, album, has_image=False)
+        return True
+
     img = download.mb.from_url(url)
     artist_path = artist.replace(' ', '_')
     album_path = album.replace(' ', '_')
