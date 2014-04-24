@@ -16,6 +16,10 @@ app = Flask(__name__)
 def albumen_get():
     return render_template('albumen.html')
 
+@app.route('/albumen/library', methods=['GET'])
+def albumen_library():
+    return render_template('albumen_library.html', albums=albumen_backend.library())
+
 @app.route('/albumen/search', methods=['POST'])
 def albumen_post():
     log.info(request.form)

@@ -12,6 +12,18 @@ s = storage.Storage(data_path)
 def unique_id(n):
     return 'uid-%05d' % n
 
+def library():
+    album_rows = s.all_albums()
+    albums = []
+    for row in album_rows:
+        album = {'artist': row[0], 'album': row[1], 'image': None}
+        if row[2]:
+            images = s.get_images_for_album(album['artist'], album['album'])
+            if images:
+                album['image'] = images[0]
+        albums.append(album)
+    return albums
+
 def search(artist, album):
     images = []
     all_albums = set()
