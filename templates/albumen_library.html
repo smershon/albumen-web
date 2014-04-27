@@ -5,8 +5,32 @@
 <script src="static/js/albumen.js"></script>
 -->
 
+<style>
+p.goldwing{
+    font: 60px Verdana; 
+    font-weight:900; 
+    letter-spacing:-7px; 
+    color:#DFDF00;
+}
+table,td {
+    border:2px solid #EFEF8F;
+    padding-right:10px;
+    padding-left:10px;
+    border-collapse:collapse;
+    font:28px Verdana;
+    font-weight:700;
+    letter-spacing:-2px
+}
+tr.trodd {
+    background-color:#FFFFEF;
+}
+tr.treven {
+    background-color:#FFFFAF;
+}
+</style>
+
 <div style="width:800px; margin:0 auto">
-  <h2>Hello Albumen Library</h2><br/>
+  <p class="goldwing">Albumen Library</p>
   <table>
     <colgroup>
       <col style="width:400px"/>
@@ -16,25 +40,19 @@
     <tbody>
       {% for album in albums: %}
         {% if album.get('image'): %}
-        <tr style="font-size:24px">
+        <tr style="font:24px Verdana" class="{{ album.row_type }}">
           <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td>
-          <td><img src="/{{ album['image']['path'] }}" width="100" height="100"></img></td>
+          <td><img src="/{{ album['image']['path'] }}" width="80" height="80"></img></td>
         </tr>
         {% else: %}
-        <tr style="font-size:24px;color:red">
+        <tr style="font-size:24px;color:red" class="{{ album.row_type }}">
           <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td>
-          <td><img src="/static/albumen/no_image.png" width="100" height="100"></img></td>
+          <td><img src="/static/albumen/no_image.png" width="80" height="80"></img></td>
         </tr>
         {% endif %}
       {% endfor %}
     </tbody>
   </table>
-  Artist: <input type="text" id="artist_input" />
-  Album: <input type="text" id="album_input" />
-  <button id="commit_button">get</button>
-  <button id="save_button" disabled="disabled">save</button><br/>
-  <div id="album_info">
-  </div>
 </div>
 {% include 'templates_albumen.html' %}
 

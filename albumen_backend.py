@@ -15,12 +15,16 @@ def unique_id(n):
 def library():
     album_rows = s.all_albums()
     albums = []
-    for row in album_rows:
+    for idx, row in enumerate(album_rows):
         album = {'artist': row[0], 'album': row[1], 'image': None}
         if row[2]:
             images = s.get_images_for_album(album['artist'], album['album'])
             if images:
                 album['image'] = images[0]
+        if idx % 2:
+            album['row_type'] = 'trodd'
+        else:
+            album['row_type'] = 'treven' 
         albums.append(album)
     return albums
 
