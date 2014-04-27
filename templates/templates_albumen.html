@@ -5,7 +5,7 @@
  
 <script id="album_row" type="text/template">
   <tr id="<%- album.image.uid %>">
-    <td>
+    <td style="font-size:20px; font-weight:500">
       <p id="artist_name"><%- album.artist_name %></p>
       <p id="album_name"><%- album.album_name %></p>
     </td><td>
@@ -16,10 +16,10 @@
  
 <script id="image_row" type="text/template">
   <tr id="<%- album.image.uid %>">
-    <td>
+    <td style="font-size:20px; font-weight:500">
       <p id="artist_name"><%- album.artist_name %></p>
       <p id="album_name"><%- album.album_name %></p>
-      <p id="img_url"><%- album.image.url %></p> 
+      <p id="img_url" style="font:14px courier;"><%- album.image.url %></p> 
       <p style="font-weight:bold"><%- width %>x<%- height %></p>
     </td><td>
       <img src="<%- album.image.url %>" width="150" height="150">

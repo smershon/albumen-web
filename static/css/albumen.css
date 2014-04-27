@@ -1,0 +1,22 @@
+p.goldwing{
+    font: 60px Verdana;
+    font-weight:900;
+    letter-spacing:-7px;
+    color:#DFDF00;
+}
+table,td {
+    border-top:2px solid #EFEF8F;
+    border-bottom:2px solid #EFEF8F;
+    padding-right:10px;
+    padding-left:10px;
+    border-collapse:collapse;
+    font:28px Verdana;
+    font-weight:700;
+    letter-spacing:-2px
+}
+tr.trodd {
+    background-color:#FFFFEF;
+}
+tr.treven {
+    background-color:#FFFFAF;
+}
