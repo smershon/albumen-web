@@ -3,6 +3,13 @@ p.goldwing{
     font-weight:900;
     letter-spacing:-7px;
     color:#DFDF00;
+    margin-bottom:-5px;
+}
+p.goldwing-sm{
+    font: 24px Verdana;
+    font-weight:900;
+    letter-spacing:-2px;
+    color:#DFDF00;
 }
 table,td {
     border-top:2px solid #EFEF8F;

@@ -12,9 +12,9 @@ logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
-@app.route('/albumen', methods=['GET'])
-def albumen_get():
-    return render_template('albumen.html')
+@app.route('/albumen/search', methods=['GET'])
+def albumen_search():
+    return render_template('albumen_search.html')
 
 @app.route('/albumen/library', methods=['GET'])
 def albumen_library():
