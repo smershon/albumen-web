@@ -36,6 +36,7 @@ def albumen_save():
 
     for field in ('artist', 'album', 'image_url'):
         if field not in d:
+            log.error('Missing field: %s' % field)
             return jsonify({'status': 'failed'})
 
     if albumen_backend.save(request.form['artist'], request.form['album'], request.form['image_url']):
