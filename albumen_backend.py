@@ -3,6 +3,7 @@ import logging
 from albumen import resolve
 from albumen import storage
 from albumen import download
+from albumen import image_analysis
 
 log = logging.getLogger(__name__)
 
@@ -66,7 +67,10 @@ def save(artist, album, url):
     filepath = os.path.join(fileroot, '%s.png' % album_path)
     if img:
         log.info('SAVING image for %s %s - %s', artist, album, filepath)
-        s.update_image(artist, album, download.mb.to_dir(img, filepath))
+        new_img = download.mb.to_dir(img, filepath)
+        analysis = image_analysis.analyze(new_img)
+        log.info('ANALYSIS: red=%.02f', analysis.red)
+        s.update_image(artist, album, analysis)
         return True
     else:
         log.info('IMAGE not found at %s', url)
