@@ -69,7 +69,6 @@ def save(artist, album, url):
         log.info('SAVING image for %s %s - %s', artist, album, filepath)
         new_img = download.mb.to_dir(img, filepath)
         analysis = image_analysis.analyze(new_img)
-        log.info('ANALYSIS: red=%.02f', analysis.red)
         s.update_image(artist, album, analysis)
         return True
     else:

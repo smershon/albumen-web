@@ -24,11 +24,19 @@
         {% if album.get('image'): %}
         <tr style="font:24px Verdana" class="{{ album.row_type }}">
           <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td>
+          <td style="font:12px Courier; width:400px; text-align:right">
+            <p>red: {{ '%.03f' % (album['image']['red'] or 0.0) }}</p> 
+            <p>green: {{ '%.03f' % (album['image']['green'] or 0.0) }}</p> 
+            <p>blue: {{ '%.03f' % (album['image']['blue'] or 0.0) }}</p>
+            <p>lightness: {{ '%.03f' % (album['image']['lightness'] or 0.0) }}</p> 
+            <p>saturation: {{ '%.03f' % (album['image']['saturation'] or 0.0) }}</p> 
+            <p>complexity: {{ '%.03f' % (album['image']['complexity'] or 0.0) }}</p>
+          </td>
           <td><img src="/{{ album['image']['path'] }}" width="80" height="80"></img></td>
         </tr>
         {% else: %}
         <tr style="font-size:24px;color:red" class="{{ album.row_type }}">
-          <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td>
+          <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td><td></td>
           <td><img src="/static/albumen/no_image.png" width="80" height="80"></img></td>
         </tr>
         {% endif %}
