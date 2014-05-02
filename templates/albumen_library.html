@@ -33,11 +33,13 @@
             <p>complexity: {{ '%.03f' % (album['image']['complexity'] or 0.0) }}</p>
           </td>
           <td><img src="/{{ album['image']['path'] }}" width="80" height="80"></img></td>
+          <td style="font:14px Verdana"><a href="/albumen/search?artist={{ album['artist'] }}&album={{ album['album'] }}">search</a></td>
         </tr>
         {% else: %}
         <tr style="font-size:24px;color:red" class="{{ album.row_type }}">
           <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td><td></td>
           <td><img src="/static/albumen/no_image.png" width="80" height="80"></img></td>
+          <td style="font:14px Verdana"><a href="/albumen/search?artist={{ album['artist'] }}&album={{ album['album'] }}">search</a></td>
         </tr>
         {% endif %}
       {% endfor %}

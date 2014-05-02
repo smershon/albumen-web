@@ -14,7 +14,9 @@ app = Flask(__name__)
 
 @app.route('/albumen/search', methods=['GET'])
 def albumen_search():
-    return render_template('albumen_search.html')
+    artist = request.args.get('artist', '')
+    album = request.args.get('album', '')
+    return render_template('albumen_search.html', artist=artist, album=album)
 
 @app.route('/albumen/library', methods=['GET'])
 def albumen_library():

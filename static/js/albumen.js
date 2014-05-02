@@ -3,6 +3,10 @@ $(document).ready(function(){
     var select_uid = null;   
  
     $("#commit_button").bind("click", function() {
+        search();
+    })
+
+    function search() {
         $("#album_info").html($("#loading-gif").text());
         $.post("/albumen/search", {
             "artist": $("#artist_input").val(),
@@ -33,7 +37,7 @@ $(document).ready(function(){
                 });
             }
         );
-    });
+    }
 
     $("#save_button").click( function() {
         if(!select_uid) {
@@ -50,6 +54,13 @@ $(document).ready(function(){
                 $("#save_button").attr("disabled", "disabled");
         });
     });
+
+    var artist_input = $("#artist_input").val();
+    var album_input = $("#album_input").val();
+
+    if(artist_input && album_input) {
+        search();
+    }
 
 });
 
