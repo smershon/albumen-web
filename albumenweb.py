@@ -20,11 +20,11 @@ def albumen_search():
 
 @app.route('/albumen/library', methods=['GET'])
 def albumen_library():
-    return render_template('albumen_library.html', albums=albumen_backend.library())
+    sortfield = request.args.get('sort', 'AZ') 
+    return render_template('albumen_library.html', albums=albumen_backend.library(sortfield))
 
 @app.route('/albumen/search', methods=['POST'])
 def albumen_post():
-    log.info(request.form)
     artist = request.form.get('artist')
     album = request.form.get('album')
     album_info = albumen_backend.search(artist, album)

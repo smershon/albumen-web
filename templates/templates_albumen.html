@@ -2,6 +2,20 @@
   <p>Found <%- results %> results:</p>
   <table id="album_table"><tbody></tbody></table>
 </script>
+
+<script id="artist_search_results" type="text/template">
+  <table>
+    <tbody>
+      <% _.each(albums, function(album, idx, lst) { %>
+      <tr>
+        <td style="font:16px courier"><a href="/albumen/search?artist=<%- album.artist %>&album=<%- album.album %>">get images</a></td>
+        <td><%- album.artist %></td>
+        <td><%- album.album %></td>
+      </tr>
+      <% }); %>
+    <tbody>
+  </table>
+</script>
  
 <script id="album_row" type="text/template">
   <tr id="<%- album.image.uid %>">

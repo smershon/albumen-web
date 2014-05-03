@@ -13,25 +13,65 @@ s = storage.Storage(data_path)
 def unique_id(n):
     return 'uid-%05d' % n
 
-def library():
+def _sortkey(doc, field):
+    def dval(x):
+        return doc.get('image', {}).get(x, 0.0)
+
+    lookup = {
+        'AZ': (doc['artist'], doc['album']),
+        'ZA': (doc['artist'], doc['album']),
+        'red': dval('red'),
+        'green': dval('green'),
+        'blue': dval('blue'),
+        'cyan': dval('red'),
+        'magenta': dval('green'),
+        'yellow': dval('blue'),
+        'black': dval('lightness'),
+        'white': dval('lightness'),
+        'gray': dval('saturation'),
+        'color': dval('saturation'),
+        'complexity': dval('complexity'),
+        'smoothness': dval('smoothness')
+    }
+
+    return lookup[field]
+
+def library(sortfield):
     album_rows = s.all_albums()
     albums = []
-    for idx, row in enumerate(sorted(album_rows)):
+
+    for row in album_rows:
         album = {'artist': row[0], 'album': row[1], 'image': None}
         if row[2]:
             images = s.get_images_for_album(album['artist'], album['album'])
             if images:
                 album['image'] = images[0]
-        album['row_type'] = 'trodd' if idx % 2 else 'treven'
         albums.append(album)
+
+    reverse_fields = ['ZA', 'red', 'green', 'blue', 'white', 'color', 'complexity']
+    albums.sort(key=lambda x: _sortkey(x, sortfield), reverse=sortfield in reverse_fields)
+
+    for idx, row in enumerate(albums):
+        row['row_type'] = 'trodd' if idx % 2 else 'treven'
+
     return albums
 
 def search(artist, album):
+    if artist and album:
+        return dict(search_type='full', **search_artist_album(artist, album))
+    else:
+        return dict(search_type='artist', **search_artist(artist))
+
+def search_artist(artist):
+    results = set([(x[0], x[1]) for x in resolve.search(artist=artist)])
+    return {'albums': sorted([{'artist': x[0], 'album': x[1]} for x in results], key=lambda x: (x['artist'], x['album']))}
+
+def search_artist_album(artist, album):
     images = []
     all_albums = set()
     idx = 0
     log.info('%s --- %s', artist, album)
-    results = resolve.search(artist, album)
+    results = resolve.search(artist=artist, title=album)
     log.info(results)
     for artist_name, album_name, mbid in results:
         all_albums.add((artist_name, album_name))
