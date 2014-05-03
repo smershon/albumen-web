@@ -1,0 +1,3 @@
+- Fix bug where previously saved images don't get overwritten by new images
+- Ability to just search by artist, then choose from albums in search results
+- Sort library by analysis fields

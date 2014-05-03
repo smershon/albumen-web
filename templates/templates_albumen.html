@@ -8,6 +8,7 @@
     <td style="font-size:20px; font-weight:500">
       <p id="artist_name"><%- album.artist_name %></p>
       <p id="album_name"><%- album.album_name %></p>
+      <p><input type="text" id="supplied_url_input" /><button id="supplied_url">url</button></p>
     </td><td>
       <img src="<%- album.image.url %>" width="150" height="150"></img>
     </td>
@@ -16,15 +17,20 @@
  
 <script id="image_row" type="text/template">
   <tr id="<%- album.image.uid %>">
-    <td style="font-size:20px; font-weight:500">
-      <p id="artist_name"><%- album.artist_name %></p>
-      <p id="album_name"><%- album.album_name %></p>
-      <p id="img_url" style="font:14px courier;"><%- album.image.url %></p> 
-      <p style="font-weight:bold"><%- width %>x<%- height %></p>
-    </td><td>
-      <img src="<%- album.image.url %>" width="150" height="150">
-    </td>
+    <%= _.template($("#image_row_inner").text(), {
+        artist: album.artist_name, album:album.album_name, url:album.image.url, width:width, height:height}) %> 
   </tr>
+</script>
+
+<script id="image_row_inner" type="text/template">
+  <td style="font-size:20px; font-weight:500">
+    <p id="artist_name"><%- artist %></p>
+    <p id="album_name"><%- album %></p>
+    <p id="img_url" style="font:14px courier;"><%- url %></p> 
+    <p style="font-weight:bold"><%- width %>x<%- height %></p>
+  </td><td>
+    <img src="<%- url %>" width="150" height="150">
+  </td>
 </script>
 
 <script id="loading-gif" type="text/template">

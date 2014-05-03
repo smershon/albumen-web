@@ -23,14 +23,38 @@ $(document).ready(function(){
                     var img = new Image();
 
                     img.onload = function() {
+                  
                         $("#album_table tbody").append(_.template($("#image_row").html(),
                             {album: album, width: img.width, height: img.height}));
+                        
                         $("#album_info tr").click(function() {
                             select_uid = $(this).attr('id')
                             $("#album_info tr").css('background-color', 'white');
                             $(this).css('background-color', '#FFCF00');
                             $("#save_button").attr("disabled", false);
                         });
+        
+                        $("#album_info tr #supplied_url").click(function() {
+                            var uid = $(this).parent().parent().parent().attr("id");
+                            var supplied_url = $("#" + uid + " #supplied_url_input").val();
+                            if(supplied_url) {
+                                var img = new Image();
+
+                                img.onload = function() {
+                                    var tmpl = {
+                                        artist: $("#" + uid + " #artist_name").html(),
+                                        album: $("#" + uid + " #album_name").html(),
+                                        url: supplied_url,
+                                        width: img.width,
+                                        height: img.height
+                                    }
+                                    $("#" + uid).html(_.template($("#image_row_inner").html(), tmpl));
+                                }
+
+                                img.src = supplied_url;
+                            }
+                        });
+
                     };
 
                     img.src = album.image.url;
