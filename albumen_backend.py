@@ -70,7 +70,7 @@ def save(artist, album, url):
         new_img = download.mb.to_dir(img, filepath)
         analysis = image_analysis.analyze(new_img)
         s.update_album(artist, album, has_image=True)
-        s.update_image(artist, album, analysis)
+        s.update_image(artist, album, analysis, replace=True)
         return True
     else:
         log.info('IMAGE not found at %s', url)
