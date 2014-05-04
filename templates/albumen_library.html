@@ -13,6 +13,7 @@
 <div style="width:800px; margin:0 auto">
   <p class="goldwing">Albumen Library</p>
   <p class="goldwing-sm"><a href="/albumen/search">Search</a></p>
+  <p>{{ albums|length }} Albums</p>
   <p style="font: 15px courier">
     <a href="/albumen/library?sort=AZ">A-Z</a>
     <a href="/albumen/library?sort=ZA">Z-A</a>
@@ -38,12 +39,13 @@
     <tbody>
       {% for album in albums: %}
         {% if album.get('image'): %}
-        <tr style="font:24px Verdana" class="{{ album.row_type }}">
+        <tr style="font:18px verdana" class="{{ album.row_type }}">
           <td>{{ album['artist'] }}</td><td>{{ album['album'] }}</td>
-          <td style="font:12px Courier; width:400px; text-align:right">
+          <td style="font:14px Courier; width:250px; text-align:right">
             <p>red: {{ '%.03f' % (album['image']['red'] or 0.0) }}</p> 
             <p>green: {{ '%.03f' % (album['image']['green'] or 0.0) }}</p> 
             <p>blue: {{ '%.03f' % (album['image']['blue'] or 0.0) }}</p>
+          </td><td style="font:14px Courier; width:250px; text-align:right">
             <p>lightness: {{ '%.03f' % (album['image']['lightness'] or 0.0) }}</p> 
             <p>saturation: {{ '%.03f' % (album['image']['saturation'] or 0.0) }}</p> 
             <p>complexity: {{ '%.03f' % (album['image']['complexity'] or 0.0) }}</p>

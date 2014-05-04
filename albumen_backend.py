@@ -31,7 +31,7 @@ def _sortkey(doc, field):
         'gray': dval('saturation'),
         'color': dval('saturation'),
         'complexity': dval('complexity'),
-        'smoothness': dval('smoothness')
+        'smoothness': dval('complexity')
     }
 
     return lookup[field]

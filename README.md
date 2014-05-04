@@ -7,4 +7,4 @@ TODO [features]:
 - Better ui on searching and saving
 
 TODO [bugs]:
-- Cannot save if there are zero results!
+- Unicode problems (ex: search for queensryche)
