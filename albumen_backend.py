@@ -1,9 +1,13 @@
 import os
 import logging
+
+import Image
+
 from albumen import resolve
 from albumen import storage
 from albumen import download
 from albumen import image_analysis
+from albumen.produce import squarepack
 
 log = logging.getLogger(__name__)
 
@@ -115,3 +119,24 @@ def save(artist, album, url):
     else:
         log.info('IMAGE not found at %s', url)
         return False
+
+def gen_img(g, attr, cell):
+    img = Image.new('RGBA', (cell*g.x, cell*g.y))
+    albums = library(attr)
+    sources = [x['image']['path'] for x in albums]
+
+    for coord, spec in g.data.iteritems():
+        src = sources.pop(0)
+        src_img = Image.open('%s' % src).resize((cell*spec[0], cell*spec[0]), Image.ANTIALIAS)
+        box = (cell*coord[0], cell*coord[1], cell*(coord[0] + spec[0]), cell*(coord[1] + spec[0]))
+        img.paste(src_img, box)
+
+    return img
+
+def gen_bg(source, sortfield, width, height, num):
+    xcell, ycell, cellsize = squarepack.gen_spec(width, height, num)
+    g = squarepack.gen_grid(xcell, ycell, num)
+    im = gen_img(g, attr=sortfield, cell=cellsize)
+    im.save('static/bg_%s.png' % sortfield, format='PNG')
+
+
