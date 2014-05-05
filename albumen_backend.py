@@ -104,8 +104,8 @@ def save(artist, album, url):
         return True
 
     img = download.mb.from_url(url)
-    artist_path = artist.replace(' ', '_')
-    album_path = album.replace(' ', '_')
+    artist_path = artist.replace(' ', '_').replace("'", '_')
+    album_path = album.replace(' ', '_').replace("'", '_')
     fileroot = os.path.join(s.folder, artist_path)
     os.system('mkdir -p %s' % fileroot)
     filepath = os.path.join(fileroot, '%s.png' % album_path)
@@ -137,6 +137,6 @@ def gen_bg(source, sortfield, width, height, num):
     xcell, ycell, cellsize = squarepack.gen_spec(width, height, num)
     g = squarepack.gen_grid(xcell, ycell, num)
     im = gen_img(g, attr=sortfield, cell=cellsize)
-    im.save('static/bg_%s.png' % sortfield, format='PNG')
+    im.save('static/albumen/output/bg_%s_%dx%d.png' % (sortfield, width, height), format='PNG')
 
 
