@@ -5,6 +5,7 @@ Web interface for getting album art from musicbrainz/coverartarchive, choosing a
 
 TODO [features]:
 - Better ui on searching and saving
+- Interface to create combined images
 
 TODO [bugs]:
 - Unicode problems (ex: search for queensryche)
