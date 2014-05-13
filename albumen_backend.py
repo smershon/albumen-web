@@ -7,6 +7,7 @@ from albumen import resolve
 from albumen import storage
 from albumen import download
 from albumen import image_analysis
+from albumen import util
 from albumen.produce import squarepack
 
 log = logging.getLogger(__name__)
@@ -62,9 +63,9 @@ def library(sortfield):
 
 def search(artist, album):
     if artist and album:
-        return dict(search_type='full', **search_artist_album(artist, album))
+        return dict(search_type='full', **search_artist_album(artist.encode('utf-8'), album.encode('utf-8')))
     else:
-        return dict(search_type='artist', **search_artist(artist))
+        return dict(search_type='artist', **search_artist(artist.encode('utf-8')))
 
 def search_artist(artist):
     results = set([(x[0], x[1]) for x in resolve.search(artist=artist)])
@@ -104,8 +105,8 @@ def save(artist, album, url):
         return True
 
     img = download.mb.from_url(url)
-    artist_path = artist.replace(' ', '_').replace("'", '_')
-    album_path = album.replace(' ', '_').replace("'", '_')
+    artist_path = util.scrub(artist).replace(' ', '_').replace("'", '_')
+    album_path = util.scrub(album).replace(' ', '_').replace("'", '_')
     fileroot = os.path.join(s.folder, artist_path)
     os.system('mkdir -p %s' % fileroot)
     filepath = os.path.join(fileroot, '%s.png' % album_path)
