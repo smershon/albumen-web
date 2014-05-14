@@ -20,7 +20,8 @@ def unique_id(n):
 
 def _sortkey(doc, field):
     def dval(x):
-        return doc.get('image', {}).get(x, 0.0)
+        image = doc.get('image') or {}
+        return image.get(x, 0.0)
 
     lookup = {
         'AZ': (doc['artist'], doc['album']),
@@ -41,20 +42,24 @@ def _sortkey(doc, field):
 
     return lookup[field]
 
-def library(sortfield):
+def library(sortfield, page=0, results_per_page=50):
     album_rows = s.all_albums()
     albums = []
 
     for row in album_rows:
-        album = {'artist': row[0], 'album': row[1], 'image': None}
+        album = {'artist': row[0].decode('utf-8'), 'album': row[1].decode('utf-8'), 'image': None}
         if row[2]:
             images = s.get_images_for_album(album['artist'], album['album'])
             if images:
-                album['image'] = images[0]
+                image = images[0]
+                image['path'] = image['path'].decode('utf-8')
+                album['image'] = image
+        log.info(album)
         albums.append(album)
 
     reverse_fields = ['ZA', 'red', 'green', 'blue', 'white', 'color', 'complexity']
     albums.sort(key=lambda x: _sortkey(x, sortfield), reverse=sortfield in reverse_fields)
+    albums = albums[page*results_per_page:(page+1)*results_per_page]
 
     for idx, row in enumerate(albums):
         row['row_type'] = 'trodd' if idx % 2 else 'treven'
@@ -111,7 +116,7 @@ def save(artist, album, url):
     os.system('mkdir -p %s' % fileroot)
     filepath = os.path.join(fileroot, '%s.png' % album_path)
     if img:
-        log.info('SAVING image for %s %s - %s', artist, album, filepath)
+        log.info('SAVING image for %s %s - %s', artist_path, album_path, filepath)
         new_img = download.mb.to_dir(img, filepath)
         analysis = image_analysis.analyze(new_img)
         s.update_album(artist, album, has_image=True)
