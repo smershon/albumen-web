@@ -78,15 +78,14 @@ $(document).ready(function(){
         if(!select_uid) {
             return;
         }
-        console.log("SAVING");
+        $("#save_button").attr("disabled", "disabled");
         $.post("/albumen/save", {
             "artist" : $("#" + select_uid + " #artist_name").html(),
             "album" : $("#" + select_uid + " #album_name").html(),
             "image_url" : $("#" + select_uid + " #img_url").html()
             },
             function(data) {
-                console.log(data);
-                $("#save_button").attr("disabled", "disabled");
+                $("#save_button").attr("disabled", false);
         });
     });
 
