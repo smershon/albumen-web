@@ -54,9 +54,9 @@ def library(sortfield, page=0, results_per_page=50):
                 image = images[0]
                 image['path'] = image['path'].decode('utf-8')
                 album['image'] = image
-        log.info(album)
         albums.append(album)
 
+    total = len(albums)
     reverse_fields = ['ZA', 'red', 'green', 'blue', 'white', 'color', 'complexity']
     albums.sort(key=lambda x: _sortkey(x, sortfield), reverse=sortfield in reverse_fields)
     albums = albums[page*results_per_page:(page+1)*results_per_page]
@@ -64,7 +64,7 @@ def library(sortfield, page=0, results_per_page=50):
     for idx, row in enumerate(albums):
         row['row_type'] = 'trodd' if idx % 2 else 'treven'
 
-    return albums
+    return albums, total
 
 def search(artist, album):
     if artist and album:
@@ -126,9 +126,9 @@ def save(artist, album, url):
         log.info('IMAGE not found at %s', url)
         return False
 
-def gen_img(g, attr, cell):
+def gen_img(g, attr, cell, num):
     img = Image.new('RGBA', (cell*g.x, cell*g.y))
-    albums = library(attr)
+    albums = library(attr, results_per_page=num)
     sources = [x['image']['path'] for x in albums]
 
     for coord, spec in g.data.iteritems():
@@ -142,7 +142,7 @@ def gen_img(g, attr, cell):
 def gen_bg(source, sortfield, width, height, num):
     xcell, ycell, cellsize = squarepack.gen_spec(width, height, num)
     g = squarepack.gen_grid(xcell, ycell, num)
-    im = gen_img(g, attr=sortfield, cell=cellsize)
+    im = gen_img(g, attr=sortfield, cell=cellsize, num=num)
     im.save('static/albumen/output/bg_%s_%dx%d.png' % (sortfield, width, height), format='PNG')
 
 

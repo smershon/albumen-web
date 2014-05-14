@@ -17,7 +17,7 @@
     <a href="/albumen/library?page={{ page - 1 }}&sort={{ sortfield }}">prev page</a>
     <a href="/albumen/library?page={{ page + 1 }}&sort={{ sortfield }}">next page</a>
   </p>
-  <p>{{ albums|length }} Albums</p>
+  <p>{{ page*results_per_page }} - {{ (page+1)*results_per_page }} of {{ total }}</p>
   <p style="font: 15px courier">
     <a href="/albumen/library?sort=AZ">A-Z</a>
     <a href="/albumen/library?sort=ZA">Z-A</a>

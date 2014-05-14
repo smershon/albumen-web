@@ -24,8 +24,9 @@ def albumen_library():
     results_per_page = int(request.args.get('results_per_page', 50))
     page = int(request.args.get('page', 0))
     sortfield = request.args.get('sort', 'AZ') 
+    albums, total = albumen_backend.library(sortfield, page=page, results_per_page=results_per_page)
     return render_template('albumen_library.html', 
-        albums=albumen_backend.library(sortfield, page=page, results_per_page=results_per_page),
+        albums=albums, total=total, results_per_page=results_per_page,
         page=page, sortfield=sortfield)
 
 @app.route('/albumen/search', methods=['POST'])
