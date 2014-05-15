@@ -55,7 +55,7 @@ def albumen_save():
 @app.route('/albumen/output', methods=['GET'])
 def albumen_output():
     path = 'static/albumen/output'
-    return render_template('albumen_output.html', images=[os.path.join(path, x) for x in os.listdir(path)])
+    return render_template('albumen_output.html', images=sorted([os.path.join(path, x) for x in os.listdir(path)]))
 
 
 

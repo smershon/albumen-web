@@ -128,7 +128,7 @@ def save(artist, album, url):
 
 def gen_img(g, attr, cell, num):
     img = Image.new('RGBA', (cell*g.x, cell*g.y))
-    albums = library(attr, results_per_page=num)
+    albums, _ = library(attr, results_per_page=num)
     sources = [x['image']['path'] for x in albums]
 
     for coord, spec in g.data.iteritems():
