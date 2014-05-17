@@ -78,7 +78,7 @@ def search_artist(artist):
 
 def search_artist_album(artist, album):
     images = []
-    all_albums = set()
+    all_albums = set([(artist, album)])
     idx = 0
     log.info('%s --- %s', artist, album)
     results = resolve.search(artist=artist, title=album)
