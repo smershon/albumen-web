@@ -12,6 +12,7 @@ from albumen.produce import squarepack
 
 log = logging.getLogger(__name__)
 
+data_root = 'static/albumen'
 data_path = 'static/albumen/data'
 s = storage.Storage(data_path)
 
@@ -42,14 +43,16 @@ def _sortkey(doc, field):
 
     return lookup[field]
 
-def library(sortfield, page=0, results_per_page=50):
-    album_rows = s.all_albums()
+def library(sortfield, page=0, results_per_page=50, version='data'):
+    ss = storage.Storage('%s/%s' % (data_root, version))
+
+    album_rows = ss.all_albums()
     albums = []
 
     for row in album_rows:
         album = {'artist': row[0].decode('utf-8'), 'album': row[1].decode('utf-8'), 'image': None}
         if row[2]:
-            images = s.get_images_for_album(album['artist'], album['album'])
+            images = ss.get_images_for_album(album['artist'], album['album'])
             if images:
                 image = images[0]
                 image['path'] = image['path'].decode('utf-8')
