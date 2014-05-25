@@ -134,7 +134,7 @@ def gen_img(g, attr, cell, num):
     albums, _ = library(attr, results_per_page=num)
     sources = [x['image']['path'] for x in albums]
 
-    for coord, spec in g.data.iteritems():
+    for coord, spec in g.cells_by_size():
         src = sources.pop(0)
         src_img = Image.open('%s' % src).resize((cell*spec[0], cell*spec[0]), Image.ANTIALIAS)
         box = (cell*coord[0], cell*coord[1], cell*(coord[0] + spec[0]), cell*(coord[1] + spec[0]))
