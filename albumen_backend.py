@@ -129,23 +129,13 @@ def save(artist, album, url):
         log.info('IMAGE not found at %s', url)
         return False
 
-def gen_img(g, attr, cell, num):
-    img = Image.new('RGBA', (cell*g.x, cell*g.y))
+def img_generator(attr, num):
     albums, _ = library(attr, results_per_page=num)
-    sources = [x['image']['path'] for x in albums]
+    for src in [x['image']['path'] for x in albums]:
+        yield Image.open(src)
 
-    for coord, spec in g.cells_by_size():
-        src = sources.pop(0)
-        src_img = Image.open('%s' % src).resize((cell*spec[0], cell*spec[0]), Image.ANTIALIAS)
-        box = (cell*coord[0], cell*coord[1], cell*(coord[0] + spec[0]), cell*(coord[1] + spec[0]))
-        img.paste(src_img, box)
-
-    return img
-
-def gen_bg(source, sortfield, width, height, num):
-    xcell, ycell, cellsize = squarepack.gen_spec(width, height, num)
-    g = squarepack.gen_grid(xcell, ycell, num)
-    im = gen_img(g, attr=sortfield, cell=cellsize, num=num)
-    im.save('static/albumen/output/bg_%s_%dx%d.png' % (sortfield, width, height), format='PNG')
+def gen_bg(attr, width, height, num):
+    im = squarepack.build_image(width, height, num, img_generator(attr, num))
+    im.save('static/albumen/output/bg_%s_%dx%d.png' % (attr, width, height), format='PNG')
 
 
