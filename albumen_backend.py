@@ -136,6 +136,6 @@ def img_generator(attr, num):
 
 def gen_bg(attr, width, height, num):
     im = squarepack.build_image(width, height, num, img_generator(attr, num))
-    im.save('static/albumen/output/bg_%s_%dx%d.png' % (attr, width, height), format='PNG')
+    im.save('static/albumen/output/bg_%dx%d_%s.png' % (width, height, attr), format='PNG')
 
 
